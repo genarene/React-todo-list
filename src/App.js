@@ -41,7 +41,6 @@ const MainPages = () => {
               <Task isOpen={isOpen} setIsOpen={setIsOpen} />
             </Route>
           </Switch>
-          <Redirect from="/" to="/home" />
         </div>
       </div>
     </TaskContextProvider>
@@ -62,6 +61,7 @@ function App() {
           <MainPages />
         </Route>
       </Switch>
+      <Redirect from="/" to="/login" />
     </Router>
   );
 }

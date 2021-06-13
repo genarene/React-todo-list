@@ -1,9 +1,15 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+import TodoIcon from "../assets/TodoIcon";
 
 const Login = () => {
+  const history = useHistory();
   return (
     <div className="m-0 p-0  grid grid-cols-2 h-screen">
       <div className="h-full flex flex-col justify-center items-center">
+        <h1 style={{ color: "#0E123E" }} className="mb-40 font-bold text-4xl">
+          TaskIT
+        </h1>
         <h2 className="mb-14 text-4xl ">Sign in to your account</h2>
         <form className="flex flex-col w-full justify-center items-center">
           <label className="text-xl font-medium">Email</label>
@@ -25,6 +31,7 @@ const Login = () => {
           />
 
           <button
+            onClick={() => history.push("/home")}
             className="bg-indigo-900 text-white hover:bg-purple-500
            font-bold py-1 px-6 rounded-md text-xl shadow-xl "
           >
@@ -33,9 +40,13 @@ const Login = () => {
         </form>
       </div>
       <div
-        className="text-red-500 h-full"
+        className="text-red-500 h-full flex items-center justify-center"
         style={{ backgroundColor: "#0E123E" }}
-      ></div>
+      >
+        <div className="-top-5 ">
+          <TodoIcon />
+        </div>
+      </div>
     </div>
   );
 };
