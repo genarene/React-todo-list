@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import uuid from "react-uuid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { taskContext } from "../context/TaskContext";
 
 // component to generate styled radio checkers
 
@@ -29,7 +30,7 @@ const RadioInputs = ({ name, value, label, onChange, defaultChecked }) => {
 };
 
 // form component to tap the inputs from user
-const Form = ({ tasks, setTasks, isOpen, setIsOpen, editTask }) => {
+const Form = ({ isOpen, setIsOpen, editTask }) => {
   // set the error state incase no input is filled the error will be triggered
   const [error, setError] = useState(false);
 
@@ -41,6 +42,8 @@ const Form = ({ tasks, setTasks, isOpen, setIsOpen, editTask }) => {
 
   // change the radio type when clicked
   const [radioInput, setRadioInput] = useState("");
+
+  const { tasks, setTasks } = useContext(taskContext);
 
   // functions to target the input values
   const changeTaskInput = (event) => {
@@ -68,6 +71,8 @@ const Form = ({ tasks, setTasks, isOpen, setIsOpen, editTask }) => {
       setError(true);
     }
   };
+
+  console.log(tasks);
 
   // update the input values in the editTask
   useEffect(() => {
@@ -97,7 +102,7 @@ const Form = ({ tasks, setTasks, isOpen, setIsOpen, editTask }) => {
             <input
               className="bg-gray-200 appearance-none border-2 border-gray-200
                rounded w-full py-2 px-4 text-gray-700
-               leading-tight focus:outline-none focus:bg-pink-300 focus:border-pink-300"
+               leading-tight focus:outline-none focus:bg-purple-300 focus:border-purple-300 active:bg-purple-300"
               name="task"
               onChange={changeTaskInput}
               value={taskInput}
@@ -126,7 +131,7 @@ const Form = ({ tasks, setTasks, isOpen, setIsOpen, editTask }) => {
             onChange={(date) => setPickedDate(date)}
             className="bg-gray-200 appearance-none border-2 border-gray-200
                rounded w-full py-2 px-4 text-gray-700
-               leading-tight focus:outline-none focus:bg-pink-300 focus:border-pink-300"
+               leading-tight focus:outline-none focus:bg-purple-300 focus:border-purple-300 active:bg-purple-300"
           />
         </div>
         <p className=" flex justify-center text-lg font-semibold  pt-8">
@@ -159,7 +164,7 @@ const Form = ({ tasks, setTasks, isOpen, setIsOpen, editTask }) => {
         <div className="flex  absolute bottom-1 left-1/3">
           {/* button to submit tasks to the generated table */}
           <button
-            className="bg-gray-900 text-white hover:bg-pink-500
+            className="bg-indigo-900 text-white hover:bg-purple-400
            font-bold py-2 px-4 rounded-md text-xl shadow-lg mr-10"
             onClick={submitTasks}
             type="button"
@@ -169,7 +174,7 @@ const Form = ({ tasks, setTasks, isOpen, setIsOpen, editTask }) => {
           </button>
           {/* button to close the form once clicked */}
           <button
-            className="bg-gray-900 text-white hover:bg-pink-500
+            className="bg-indigo-900 text-white hover:bg-purple-400
            font-bold py-2 px-4 rounded-md text-xl shadow-lg  "
             type="button"
             onClick={() => setIsOpen(!isOpen)}
