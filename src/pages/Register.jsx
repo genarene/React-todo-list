@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import TodoIcon from "../assets/TodoIcon";
 
 const Register = () => {
+  const [user, setUser] = useState({ username: "", email: "", password: "" });
+
+  const history = useHistory();
+
+  // target the input values
+  const changeUserName = (event) => {
+    setUser({ ...user, username: event.target.value });
+  };
+  const changeEmailInput = (event) => {
+    setUser({ ...user, email: event.target.value });
+  };
+  const changePasswordInput = (event) => {
+    setUser({ ...user, password: event.target.value });
+  };
+
+  const handleRegister = () => {
+    fetch(`https://user-manager-three.vercel.app/api/user/register`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        history.push("/login");
+      })
+      .catch((err) => {
+        console.log("this error occurred", err);
+      });
+  };
   return (
     <div className="m-0 p-0  grid grid-cols-2 h-screen">
       <div className="h-full flex flex-col justify-center items-center">
@@ -10,6 +43,8 @@ const Register = () => {
           <input
             type="text"
             name="username"
+            onChange={changeUserName}
+            value={user.username}
             className="bg-gray-200 appearance-none border-2 border-gray-200
                rounded  py-2 px-4 w-100 text-gray-700
                leading-tight focus:outline-none focus:bg-gray-300 focus:border-indigo-800 mb-6"
@@ -19,6 +54,8 @@ const Register = () => {
           <input
             type="email"
             name="email"
+            onChange={changeEmailInput}
+            value={user.email}
             className="bg-gray-200 appearance-none border-2 border-gray-200
                rounded  py-2 px-4 text-gray-700
                leading-tight focus:outline-none focus:bg-gray-300 focus:border-indigo-800 mb-6 "
@@ -28,32 +65,38 @@ const Register = () => {
           <input
             type="password"
             name="password"
+            onChange={changePasswordInput}
+            value={user.password}
             className="bg-gray-200 appearance-none border-2 border-gray-200
                rounded  py-2 px-4 text-gray-700
                leading-tight focus:outline-none focus:bg-gray-300 focus:border-indigo-800 mb-6"
           />
 
-          <label className="text-xl font-medium">Confirm Password</label>
-          <input
-            type="password"
-            name="confirmpassword"
-            className="bg-gray-200 appearance-none border-2 border-gray-200
-               rounded  py-2 px-4 text-gray-700
-               leading-tight focus:outline-none focus:bg-gray-300 focus:border-indigo-800 mb-10"
-          />
           <button
             className="bg-indigo-900 text-white hover:bg-purple-500
            font-bold py-1 px-6 rounded-md text-xl shadow-xl "
+            onClick={handleRegister}
+            type="button"
           >
             Register
+          </button>
+          <button
+            onClick={() => history.push("/login")}
+            className="bg-indigo-900 text-white hover:bg-purple-500
+           font-bold py-1 px-6 rounded-md text-xl shadow-xl mt-10"
+            type="button"
+          >
+            Login
           </button>
         </form>
       </div>
       <div
-        className="text-red-500 h-full"
+        className=" h-full flex items-center justify-center"
         style={{ backgroundColor: "#0E123E" }}
       >
-        Login
+        <div className="-top-5 ">
+          <TodoIcon />
+        </div>
       </div>
     </div>
   );

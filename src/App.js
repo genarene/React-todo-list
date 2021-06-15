@@ -3,12 +3,7 @@ import { useState } from "react";
 
 import Home from "./pages/Home";
 import Task from "./pages/Task";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import SideBar from "./Components/SideBar";
@@ -51,7 +46,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/signUp">
+        <Route exact path="/register">
           <Register />
         </Route>
         <Route path="/login">
@@ -61,7 +56,6 @@ function App() {
           <MainPages />
         </Route>
       </Switch>
-      <Redirect from="/" to="/login" />
     </Router>
   );
 }

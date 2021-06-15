@@ -15,12 +15,10 @@ const Home = () => {
   const [value, onChange] = useState(new Date());
 
   // getting the number of completed tasks
-  const completedTaskLength = tasks.filter(
-    (task) => task.status === "complete"
-  ).length;
+  const completedTaskLength = tasks.filter((task) => task.completed).length;
 
   //  getting the length of the pending tasks
-  const taskLength = tasks.filter((task) => task.status === "pending").length;
+  const taskLength = tasks.filter((task) => !task.completed).length;
 
   // calculating the percentage of the completed task to be renderd in the progress bar
   const percentage = (completedTaskLength / tasks.length) * 100;
@@ -30,6 +28,9 @@ const Home = () => {
   const viewAllTasks = () => {
     history.push("/task");
   };
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <div
       className="p-6 grid h-full"
@@ -43,8 +44,8 @@ const Home = () => {
           {/* checking if the task is less than two to display 'task' and more than one to display 'tasks' */}
           {taskLength <= 1 || 0 ? (
             <h1>
-              Hey Nazarene <span className="text-purple-500">{taskLength}</span>{" "}
-              pending task
+              Hey {user.email}{" "}
+              <span className="text-purple-500">{taskLength}</span> pending task
             </h1>
           ) : (
             <h1>
@@ -133,9 +134,9 @@ const Home = () => {
           {tasks.slice(0, 3).map((task) => (
             <div className="flex justify-between mt-6">
               <div>
-                <h3 className="text-lg font-bold">{task.task} </h3>
+                <h3 className="text-lg font-bold">{task.title} </h3>
                 <h6 className="text-gray-500">
-                  {format(new Date(task.date), "dd-MM-yyyy HH:mm aaa")}
+                  {format(new Date(task.dateCreated), "dd-MM-yyyy HH:mm aaa")}
                 </h6>
               </div>
               <span className="font-bold text-2xl text-gray-500">:</span>

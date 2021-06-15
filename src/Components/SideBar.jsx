@@ -4,14 +4,22 @@ import { FaTasks, FaHome, FaRegListAlt } from "react-icons/fa";
 import Button from "./ui/button";
 import TodoIcon from "../assets/TodoIcon";
 import Modal from "react-modal";
+import { useHistory } from "react-router-dom";
 import Form from "../Components/Form";
 
 const SideBar = ({ isOpen, setIsOpen }) => {
   // setting the state of the task array
   const [tasks, setTasks] = useState([]);
 
+  const history = useHistory();
+
   // state for editing tasks
   const [editTask] = useState({});
+
+  const logOutHandler = () => {
+    localStorage.removeItem("user");
+    history.push("/login");
+  };
 
   return (
     <div className="h-full p-6 ">
@@ -41,7 +49,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
       </nav>
 
       <div
-        className=" relative h-1/3 rounded-lg mt-80  flex flex-col items-center justify-center "
+        className=" relative h-1/3 rounded-lg mt-60 mb-10 flex flex-col items-center justify-center "
         style={{ backgroundColor: "#F1EDFC" }}
       >
         <div className="-top-5 ">
@@ -54,6 +62,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
         {/* button to open the form module */}
         <Button text=" + Add task" handler={() => setIsOpen(true)} />
       </div>
+      <Button text="LogOut" handler={() => logOutHandler()} />
 
       {/* the modal that displays the form */}
       <Modal

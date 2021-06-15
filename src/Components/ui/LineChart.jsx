@@ -2,7 +2,8 @@ import React from "react";
 import { ResponsiveLine } from "@nivo/line";
 import { linearGradientDef } from "@nivo/core";
 
-// this is dummy data will update as soon as API's are provided
+// this is dummy data will upgrade with time
+// table is to show the number of tasks in a day against the tasks completed
 
 const data = [
   {

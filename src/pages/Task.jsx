@@ -5,6 +5,7 @@ import { taskContext } from "../context/TaskContext";
 
 function Task({ isOpen, setIsOpen }) {
   const { tasks } = useContext(taskContext);
+
   return (
     <div>
       <div className="flex pr-20 pt-10 justify-end ">
