@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import TodoIcon from "../assets/TodoIcon";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -24,12 +25,17 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        // local storage for user
-        localStorage.setItem("user", JSON.stringify(result.body));
-        history.push("/home");
+        if (result.error) {
+          toast.error("invalid credentials!");
+        } else {
+          toast.success("login successful");
+          // local storage for user
+          localStorage.setItem("user", JSON.stringify(result.body));
+          history.push("/home");
+        }
       })
       .catch((err) => {
-        console.log("this error occurred", err);
+        alert("this error occurred", err);
       });
   };
 
@@ -71,6 +77,7 @@ const Login = () => {
           >
             Login
           </button>
+
           <button
             type="button"
             onClick={() => history.push("/register")}

@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { taskContext } from "../context/TaskContext";
 
 // form component to tap the inputs from user
@@ -36,26 +37,31 @@ const Form = ({ isOpen, setIsOpen }) => {
     };
 
     if (taskInput) {
+      fetch(`https://user-manager-three.vercel.app/api/todo/create`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(task),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.error) {
+            toast.error("unable to add task");
+          } else {
+            toast.success("task added");
+          }
+          setTaskInput("");
+          setDescriptionInput("");
+          setRefetch(!refetch);
+        })
+        .catch((err) => {
+          console.log("this error occurred", err);
+        });
     } else {
       // if there is no value in the task the error is set to true
       setError(true);
     }
-    fetch(`https://user-manager-three.vercel.app/api/todo/create`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(task),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        setTaskInput("");
-        setDescriptionInput("");
-        setRefetch(!refetch);
-      })
-      .catch((err) => {
-        console.log("this error occurred", err);
-      });
   };
 
   const updateTask = () => {
@@ -66,28 +72,33 @@ const Form = ({ isOpen, setIsOpen }) => {
     };
 
     if (taskInput) {
+      fetch(`https://user-manager-three.vercel.app/api/todo/update`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(changedTask),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.error) {
+            toast.error("unable to edit task");
+          } else {
+            toast.success("task edited");
+          }
+          setTaskInput("");
+          setDescriptionInput("");
+          setEditTask({});
+          setRefetch(!refetch);
+          setIsOpen(false);
+        })
+        .catch((err) => {
+          console.log("this error occurred", err);
+        });
     } else {
       // if there is no value in the task the error is set to true
       setError(true);
     }
-    fetch(`https://user-manager-three.vercel.app/api/todo/update`, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(changedTask),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        setTaskInput("");
-        setDescriptionInput("");
-        setEditTask({});
-        setRefetch(!refetch);
-        setIsOpen(false);
-      })
-      .catch((err) => {
-        console.log("this error occurred", err);
-      });
   };
 
   // update the input values in the editTask
@@ -133,18 +144,16 @@ const Form = ({ isOpen, setIsOpen }) => {
             </h1>
           ) : null}
         </div>
-
-        <div>
-          <label className="text-lg font-semibold  pt-8">Description:</label>
+        <div className="mt-10">
+          <label className="text-lg font-semibold  pt-8 ">Description:</label>
           <textarea
             onChange={changeDescription}
             value={descriptionInput}
             className="bg-gray-200 appearance-none border-2 border-gray-200
-               rounded w-full py-2 px-4 text-gray-700
+               rounded w-full py-6 px-4 text-gray-700 text-lg
                leading-tight focus:outline-none focus:bg-purple-300 focus:border-purple-300 active:bg-purple-300"
           />
-        </div>
-
+        </div>{" "}
         <div className="flex  absolute bottom-1 left-1/3">
           {/* button to submit tasks to the generated table */}
           <button

@@ -4,6 +4,7 @@ import { BiTask } from "react-icons/bi";
 import { BsCheckCircle } from "react-icons/bs";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import { taskContext } from "../context/TaskContext";
+import { toast } from "react-toastify";
 
 // component that generates a table of the tasks filled in the form
 const GeneratedTable = ({ isOpen, setIsOpen }) => {
@@ -18,6 +19,11 @@ const GeneratedTable = ({ isOpen, setIsOpen }) => {
       .then((res) => res.json())
       .then((result) => {
         setRefetch(!refetch);
+        if (result.error) {
+          toast.error("task no deleted!");
+        } else {
+          toast.dark("task deleted");
+        }
       })
       .catch((err) => {
         console.log("this error occurred", err);
@@ -89,6 +95,14 @@ const GeneratedTable = ({ isOpen, setIsOpen }) => {
                     Date Created:
                   </span>{" "}
                   {format(new Date(task.dateCreated), "dd-MM-yyyy HH:mm aaa")}
+                </div>
+                <div className="text-sm">
+                  <span className="text-indigo-900 font-bold text-md">
+                    Description:
+                  </span>{" "}
+                  <span className="text-indigo-900 text-sm">
+                    {task.description}
+                  </span>
                 </div>
               </div>
               <div className="flex flex-col items-center ml-auto ">

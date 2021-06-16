@@ -8,6 +8,8 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import SideBar from "./Components/SideBar";
 import TaskContextProvider from "./context/TaskContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MainPages = () => {
   // setting the state of the modal containing the form
@@ -44,19 +46,34 @@ const MainPages = () => {
 // the main component rendering the app;
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/register">
-          <Register />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/">
-          <MainPages />
-        </Route>
-      </Switch>
-    </Router>
+    <>
+      <Router>
+        <Switch>
+          <Route exact path="/register">
+            <Register />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/">
+            <MainPages />
+          </Route>
+        </Switch>
+      </Router>
+      <div>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </div>
+    </>
   );
 }
 

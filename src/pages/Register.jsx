@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import TodoIcon from "../assets/TodoIcon";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [user, setUser] = useState({ username: "", email: "", password: "" });
@@ -28,10 +29,16 @@ const Register = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        history.push("/login");
+        console.log(result);
+        if (result.error) {
+          toast.error("user already exist!");
+        } else {
+          toast.success("register successful, please login");
+          history.push("/login");
+        }
       })
       .catch((err) => {
-        console.log("this error occurred", err);
+        toast.error("credentials already exist!");
       });
   };
   return (
